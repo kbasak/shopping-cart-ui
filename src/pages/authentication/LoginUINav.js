@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import "../../App.css";
 
 function LoginUINav({ activeTab }) {
-    console.log(activeTab);
     return (
         <>
             <div className="pageSwitcher">
