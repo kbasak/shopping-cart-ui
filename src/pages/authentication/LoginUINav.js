@@ -19,7 +19,7 @@ function LoginUINav({ activeTab }) {
                     Sign Up
                 </NavLink>
             </div>
-            {/* <div className="formTitle">
+            <div className="formTitle">
                 <NavLink
                     to="/"
                     className={(activeTab === "signin" ? "formTitleLink-signin" : "formTitleLink")}
@@ -34,8 +34,8 @@ function LoginUINav({ activeTab }) {
                 >
                     Sign Up
                 </NavLink>
-            </div> */}
-            <div className="formTitle">
+            </div>
+            {/* <div className="formTitle">
                 <div className={(activeTab === "signin" ? "formTitleLink-signin" : "formTitleLink")}>
                     Sign In
                 </div>{" "}
@@ -43,7 +43,7 @@ function LoginUINav({ activeTab }) {
                 <div className={(activeTab === "signup" ? "formTitleLink-signup" : "formTitleLink")}>
                     Sign Up
                 </div>
-            </div>
+            </div> */}
         </>
     );
 }

@@ -1,0 +1,163 @@
+.mainSection {
+    margin: 10px 120px 20px 120px;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: 2px solid rgb(178, 178, 178);
+    padding: 20px;
+}
+
+.cardtemp {
+    min-height: 45px;
+    min-width: 100%;
+    max-width: 100%;
+    margin: 10px;
+    border: 1px solid rgb(107, 107, 107);
+    border-bottom: 0px;
+    border-top: 0px;
+}
+.tem{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 45px;
+    width: 100%;
+    border: 1px solid black;
+}
+.tem4{
+    height: 44px;
+    border-right: 1px solid rgb(82, 82, 82);
+    align-items: center;
+    padding-top: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 5%;
+    text-align: center;
+}
+.tem1{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    width: 20%;
+    height: 44px;
+    border-right: 1px solid rgb(82, 82, 82);
+    align-items: center;
+    padding-top: 8px;
+    padding-left: 10px;
+    text-align: center;
+}
+.tem2{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding-top: 8px;
+    padding-left: 10px;
+    width: 60%;
+    border-right: 1px solid rgb(82, 82, 82);
+    text-align: center;
+}
+
+.tem3{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    padding-top: 8px;
+    padding-left: 30px;
+    width: 15.5%;
+    border-right: 1px solid rgb(82, 82, 82);
+}
+
+.selectCart {
+    color: #646f7d;
+    font-size: 0.9em;
+}
+
+.selectCartCheckbox {
+    position: relative;
+    top: 1.5px;
+}
+
+.quant{
+    width: 15%;
+    padding-top: 4px;
+    margin: 3px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+}
+
+.quant input {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: block;
+    width: 100px;
+    height: 30px;
+    margin: auto;
+    border-radius: 1px;
+    padding: 2px;
+    border: 1px solid #ccc;
+    font-size: 12.5px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.quant input:focus {
+    outline: none;
+    border: 1px solid black;
+    box-shadow: 0px 0px 5px 0px rgba(21, 0, 159, 0.25);
+}
+
+.cart-checkout{
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    font-size: .8rem;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: rgb(255, 255, 255);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 100px 120px 25px 120px;
+    padding-bottom: 15px;
+}
+
+.cart-checkout button {
+    background-color: rgb(88, 0, 0);
+    border: none;
+    width: 200px;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: -10px;
+    margin-left: 20px;
+    border-radius: 10px;
+    padding: 2px;
+    color: white;
+    cursor: pointer;
+    transition: 70ms;
+}
+
+.cart-checkout button:active {
+    transform: translateY(3px);
+    box-shadow: 0px 0px 5px 0px rgba(21, 0, 159, 0.25);
+}
+
+.cart-checkout button:hover {
+    background-color: rgba(132, 0, 0, 0.904);
+}
+
+.delete-cart button {
+    background-color: rgba(93, 93, 93, 0.769);
+    border: none;
+    width: 200px;
+    height: 30px;
+    margin: 120px 0 25px 120px;
+    border-radius: 10px;
+    padding: 2px;
+    color: white;
+    cursor: pointer;
+    transition: 70ms;
+}
+
+.delete-cart button:active {
+    transform: translateY(3px);
+    box-shadow: 0px 0px 5px 0px rgba(21, 0, 159, 0.25);
+}
+
+.delete-cart button:hover {
+    background-color: rgb(255, 183, 183);
+    color: black;
+}

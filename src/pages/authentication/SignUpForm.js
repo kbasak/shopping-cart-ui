@@ -140,7 +140,9 @@ function SignUpForm() {
     return (
         <div className="App">
             <div className="appAside">
-                {/* <img src={require('../../image/cyber-security-banner.jpg')} alt="Authentication" /> */}
+                <img src={require('../../image/logo.jpg')} alt="Authentication" />
+                <p className="title">Shopping Cart Application</p>
+                <p>Register yourself to explore this application</p>
             </div>
             <div className="appForm">
                 <LoginUINav activeTab={"signup"} />

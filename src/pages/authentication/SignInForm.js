@@ -35,6 +35,7 @@ function SignInForm() {
             try {
                 var loginResponse = await LoginStatus(userdata);
                 localStorage.setItem("name", loginResponse.name);
+                localStorage.setItem("token", loginResponse.jwtAuthToken);
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -48,7 +49,20 @@ function SignInForm() {
                 console.log(loginResponse);
                 navigate('/home');
             } catch (exception) {
-                if (exception.response.data.errorMessage === "Invalid Password") {
+                if (!exception.response) {
+                    // network error
+                    Swal.fire({
+                        position: "center",
+                        title: "Network Error !!!",
+                        // text: "Please check your network connection...",
+                        icon: "error",
+                        width: '300px',
+                        background: '#12130f',
+                        confirmButtonText: "Try Again",
+                        color: 'white',
+                        allowEnterKey: false,
+                    })
+                } else if (exception.response.data.errorMessage === "Invalid Password") {
                     Swal.fire({
                         position: "center",
                         title: exception.response.data.errorMessage + "!!!",
@@ -100,7 +114,9 @@ function SignInForm() {
     return (
         <div className="App">
             <div className="appAside">
-                {/* <img src={require('../../image/cyber-security-banner.jpg')} alt="Authentication" /> */}
+                <img src={require('../../image/logo.jpg')} alt="Authentication" />
+                <p className="title">Shopping Cart Application</p>
+                <p>Login to explore & purchase our products</p>
             </div>
             <div className="appForm">
                 <LoginUINav activeTab={"signin"} />
