@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { CheckOutCart, DeleteCart } from "../../util/APICalls";
@@ -7,63 +7,63 @@ import Header from "../home/Header";
 import './Check.css';
 
 function Check() {
-    const [allcheck, setAllCheck] = useState();
-    const [hasAgreed, setHasAgreed] = useState(false);
-    //const [hasAgreedOne, setHasAgreedOne] = useState(false);
-    const [selectedIds, setSelectedIds] = useState();
-
-    const [productQuantity, setProductQuantity] = useState({});
     const navigate = useNavigate();
     const { state } = useLocation();
     const items = state.carts;
     console.log(items);
 
-    useEffect(() => {
-        async function checkout() {
-            console.log("Inside UseEffect")
-            console.log(Object.keys(productQuantity).length)
-            if (Object.keys(productQuantity).length !== 0) {
-                let ids = [];
-                console.log("Inside UseEffect");
-                for (const key in productQuantity) {
-                    if (productQuantity.hasOwnProperty(key)) {
-                        ids.push(productQuantity[key]);
-                        console.log(`${key}: ${productQuantity[key]}`);
-                    }
-                }
-                setSelectedIds(ids);
-                console.log(ids);
-            }
-        }
-        checkout();
-    }, [productQuantity]);
+    const [checkedState, setCheckedState] = useState(items.map(() => false));
+    const [isAllChecked, setIsAllChecked] = useState(false);
+    //const [selectedIds, setSelectedIds] = useState();
 
-    function handleChange(event, item) {
-        let target = event.target;
-        let name = target.name;
-        if (name === "hasAgreed") {
-            setHasAgreed(!hasAgreed);
-            //const checkOutItem = items.filter(item => item.status === 'A')
-            if (!hasAgreed) {
-                setAllCheck(items);
-                items.map(product => setProductQuantity((currentQuantity) => ({
-                    ...currentQuantity,
-                    [product.id]: product.id,
-                })))
-            } else {
-                setAllCheck('');
-            }
-        }
-    }
+    const handleHeaderCheckboxChange = (e) => {
+        const checked = e.target.checked;
+        setIsAllChecked(checked);
+        setCheckedState(checkedState.map(() => checked));
+    };
 
-    async function handleCart(){
-        const response=await CheckOutCart(selectedIds);
-        console.log("Response: " + response);
-        let formattedString = response.toString().split(",").join("\n");
+    const handleRowCheckboxChange = (index) => {
+        const updatedCheckedState = checkedState.map((item, idx) =>
+            idx === index ? !item : item
+        );
+        setCheckedState(updatedCheckedState);
+        setIsAllChecked(updatedCheckedState.every((item) => item));
+    };
+
+    const handlePlaceOrder = async () => {
+        const selectedProducts = items.filter((_, index) => checkedState[index]);
+        console.log('Selected products for order:', selectedProducts);
+        // You can send selectedProducts to your server or perform any other actions here
+        const response=await CheckOutCart(selectedProducts);
+        console.log(response);
+        const TAndCList = response.toString().split(",").join("\n");
+        // alert(TAndCList);
         Swal.fire({
             position: "center",
-            text: formattedString,
+            html: '<pre>' + TAndCList + '</pre>',
             icon: "success",
+            width: '400px',
+            background: '#12130f',
+            color: 'white',
+            allowEnterKey: false,
+            confirmButtonText: "Shop Now",
+        }).then(() => {
+            navigate('/cartpage');
+        });
+    };
+
+    const handleDeleteCart = async () => {
+        const selectedProducts = items.filter((_, index) => checkedState[index]);
+        console.log('Selected products for Delete:', selectedProducts);
+        // You can send selectedProducts to your server or perform any other actions here
+        const response=await DeleteCart(selectedProducts);
+        console.log(response);
+        const TAndCList = response.toString().split(",").join("\n");
+        // alert(TAndCList);
+        Swal.fire({
+            position: "center",
+            html: '<pre>' + TAndCList + '</pre>',
+            icon: "info",
             width: '400px',
             background: '#12130f',
             color: 'white',
@@ -72,41 +72,7 @@ function Check() {
         }).then(() => {
             navigate('/home');
         });
-    }
-
-    async function handleDelete(){
-        const response=await DeleteCart(selectedIds);
-        console.log("Response: " + response);
-        let formattedString = response.toString().split(",").join(" || ");
-        console.log(formattedString);
-        Swal.fire({
-            position: "center",
-            text: formattedString,
-            icon: "success",
-            width: '400px',
-            background: '#12130f',
-            color: 'white',
-            allowEnterKey: false,
-            confirmButtonText: "Shop Now",
-        }).then(() => {
-            navigate('/home');
-        });
-    }
-
-    // function handleChangeCheck(e, index) {
-
-    //     setHasAgreedOne(!hasAgreedOne);
-    //     if (!hasAgreedOne) {
-    //         console.log(allcheck);
-    //         console.log(item);
-    //         setAllCheck(allcheck.filter(list => list.id !== item.id));
-    //     }
-
-    //     setProductQuantity((currentQuantity) => ({
-    //         ...currentQuantity,
-    //         [index]: e.target.value,
-    //     }));
-    // }
+    };
 
     function backToCart() {
         navigate('/cartpage');
@@ -114,27 +80,23 @@ function Check() {
     return (
         <>
             <Header />
-            <div className='delete-cart' key={Math.random()}>
-                <button  onClick={handleDelete}>Delete</button>
+            <div className='delete-cart'>
+                <button onClick={handleDeleteCart}>Delete</button>
             </div>
             <div className="mainSection">
                 <div className="cardtemp">
                     <div className='tem'>
                         <div className="tem4">
                             <label className="selectCart">
-                                {console.log(allcheck)}
-                                {console.log(hasAgreed)}
-                                {console.log(productQuantity)}
                                 <input
                                     className="selectCartCheckbox"
                                     type="checkbox"
-                                    name="hasAgreed"
-                                    value={hasAgreed}
-                                    onChange={handleChange}
+                                    checked={isAllChecked}
+                                    onChange={handleHeaderCheckboxChange}
                                 />
                             </label>
                         </div>
-                        <div className='tem1' style={{width:'12.5%'}}>
+                        <div className='tem1' style={{ width: '20%' }}>
                             SKU
                         </div>
                         <div className='tem2'>
@@ -149,46 +111,43 @@ function Check() {
                     return (
                         <>
                             {/* {(item.status === "A") && */}
-                                <div className="cardtemp" style={{ marginBottom: '-10px' }} key={item.index}>
-                                    <div className='tem'>
-                                        {/* <div className="tem4">
-                                            <label className="selectCart">
-                                                <input
-                                                    className="selectCartCheckbox"
-                                                    type="checkbox"
-                                                    name="hasAgreed-i"
-                                                    value={hasAgreedOne}
-                                                    onChange={(e) => handleChange(e, item.id)}
-
-                                                />
-                                            </label>
-                                        </div> */}
-                                        <div className='tem1'>
-                                            {item.sku}
-                                        </div>
-                                        <div className='tem2'>
-                                            {item.description}<br />
-                                        </div>
-                                        <div className='quant'>
+                            <div className="cardtemp" style={{ marginBottom: '0px' }} key={item.index}>
+                                <div className='tem'>
+                                    <div className="tem4">
+                                        <label className="selectCart">
                                             <input
-                                                type="number"
-                                                placeholder="QTY"
-                                                min={0}
-                                                value={item.quantity}
-                                                name="quantity"
-                                                onChange={handleChange}
+                                                className="selectCartCheckbox"
+                                                type="checkbox"
+                                                checked={checkedState[index]}
+                                                onChange={() => handleRowCheckboxChange(index)}
                                             />
-                                        </div>
+                                        </label>
+                                    </div>
+                                    <div className='tem1'>
+                                        {item.sku}
+                                    </div>
+                                    <div className='tem2'>
+                                        {item.description}<br />
+                                    </div>
+                                    <div className='quant'>
+                                        <input
+                                            type="number"
+                                            placeholder="QTY"
+                                            min={0}
+                                            value={item.quantity}
+                                            name="quantity"
+                                        />
                                     </div>
                                 </div>
-                                {/* } */}
-                                </>
+                            </div>
+                            {/* } */}
+                        </>
                     )
                 })}
             </div>
             <div className='cart-checkout' style={{ marginTop: '10px', float: 'right' }}>
                 <button onClick={backToCart}>Go To Shopping Cart</button>
-                <button onClick={handleCart}>CheckOut</button>
+                <button onClick={handlePlaceOrder}>CheckOut</button>
             </div>
         </>
     );

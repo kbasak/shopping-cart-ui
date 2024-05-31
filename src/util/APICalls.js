@@ -43,8 +43,12 @@ export async function GetCartDetails() {
     return data;
 }
 
-export async function CheckOutCart(ids) {
-    console.log(ids + "-------------");
+export async function CheckOutCart(items) {
+    const ids=[];
+    await items.map((item)=>(
+        ids.push(item.id)
+    ))
+    console.log(ids);
     const { data } = await axios.get("http://localhost:9091/checkoutcart?id=" + ids, {
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token"),
@@ -56,8 +60,12 @@ export async function CheckOutCart(ids) {
     return data;
 }
 
-export async function DeleteCart(ids) {
-    console.log(ids + "-------------");
+export async function DeleteCart(items) {
+    const ids=[];
+    await items.map((item)=>(
+        ids.push(item.id)
+    ))
+    console.log(ids);
     const { data } = await axios.delete("http://localhost:9091/deletecart?id=" + ids, {
         headers: {
             "Authorization": "Bearer " + localStorage.getItem("token"),
